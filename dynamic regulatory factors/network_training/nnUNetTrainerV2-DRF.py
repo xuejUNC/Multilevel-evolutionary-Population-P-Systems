@@ -58,17 +58,17 @@ class nnUNetTrainerV2(nnUNetTrainer):
 
             self.setup_DA_params()
 
-            ################# deep supervision机制 ############
-            # 网络输出的个数
+            ################# deep supervision############
+            # the output
             net_numpool = len(self.net_num_pool_op_kernel_sizes)
-            #我们给每个输出一个权重，该权重随着分辨率的降低呈指数递减(除以2)，这使得更高分辨率的输出在损失中有更多的权重
+            
             weights = np.array([1 / (2 ** i) for i in range(net_numpool)])
-            # 不用后2个输出。将权重归一化，使它们和为1
+            
             mask = np.array([True] + [True if i < net_numpool - 1 else False for i in range(1, net_numpool)])
             weights[~mask] = 0
             weights = weights / weights.sum()
             self.ds_loss_weights = weights
-            # 将损失组合
+            # combine the loss
             self.loss = MultipleOutputLoss2(self.loss, self.ds_loss_weights)
             ################# END ###################
 
@@ -208,7 +208,7 @@ class nnUNetTrainerV2(nnUNetTrainer):
         if torch.cuda.is_available():
             data = to_cuda(data)
             target = to_cuda(target)
-
+        ### the dynamic regulatory factor  \mu
         self.optimizer.zero_grad()
         self.T = 1 - (self.epoch / self.max_num_epochs)
         self.com =None
@@ -227,11 +227,11 @@ class nnUNetTrainerV2(nnUNetTrainer):
                     else:
                         self.com = True
             if do_backprop:
-                self.amp_grad_scaler.scale(l).backward()#反向传播计算得到每个参数的梯度值
+                self.amp_grad_scaler.scale(l).backward()#
                 if self.com:
                     self.amp_grad_scaler.unscale_(self.optimizer)
-                    torch.nn.utils.clip_grad_norm_(self.network.parameters(), 12)#缓解梯度爆炸
-                    self.amp_grad_scaler.step(self.optimizer)#通过梯度下降执行参数更新
+                    torch.nn.utils.clip_grad_norm_(self.network.parameters(), 12)#
+                    self.amp_grad_scaler.step(self.optimizer)#
                     self.amp_grad_scaler.update()
         else:
             output = self.network(data)
@@ -258,10 +258,9 @@ class nnUNetTrainerV2(nnUNetTrainer):
 
     def do_split(self):
         """
-               进行划分5折，并将其保存为splits_final。PKL文件在预处理数据目录。
                """
         if self.fold == "all":
-            # 如果fold==all，那么使用所有的图像进行训练，我们所用的。
+            
             tr_keys = val_keys = list(self.dataset.keys())
         else:
             splits_file = join(self.dataset_directory, "splits_final.pkl")
@@ -368,7 +367,7 @@ class nnUNetTrainerV2(nnUNetTrainer):
 
         self.data_aug_params["num_cached_per_thread"] = 2
 
-
+    #dynamic regulatory factor  \nu
     def maybe_update_lr(self, epoch=None):
         """
         :param epoch:
@@ -383,10 +382,10 @@ class nnUNetTrainerV2(nnUNetTrainer):
         if self.T < 0.5 and len(self.MAloss) > 2:##STL中的条件控制
             if abs(self.MAloss[-1] - self.MAloss[-2]) < 5e-3:
                 self.e_lr.append(self.epoch)
-                #print("当前满足5e-3条件的epoch数量是：",len(self.e_lr))
+                #print("the number of epoch satify 5e-3：",len(self.e_lr))
                 self.print_to_log_file("5e-3_epoch:", len(self.e_lr))
                 if len(self.e_lr) % 30 == 0:
-                    #print("满足条件啦！")
+                    #print("satisfactory！")
                     self.ma_lr.append(0.8 * poly_lr(ep, self.max_num_epochs, self.initial_lr, 0.9))
                     self.optimizer.param_groups[0]['lr'] = self.ma_lr[-1]
                 else :
