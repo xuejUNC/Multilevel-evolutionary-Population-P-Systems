@@ -20,7 +20,7 @@ generic_UNet.py is the framework of the overall network, which call the base "in
 
 ### Dynamic regulatory factors
 
-Inspired by the simulated annealing algorithm [45], where the state and energy of matter are controlled, reconstructed and optimized by temperature, we design two dynamic regulatory factors to guide the optimization of HN P systems automatically.
+Inspired by the simulated annealing algorithm, where the state and energy of matter are controlled, reconstructed and optimized by temperature, we design two dynamic regulatory factors to guide the optimization of HN P systems automatically.
 
 In the file "dynamic regulatory factors", the training is implemented in network_training. In network_training, the dynamic regulatory factors are conducted in nnUNetTrainerV2-DRF.py to guide the optimization of HN P systems. And nnUNetTrainerV2-final.py call the other py files to complete the training.
 
