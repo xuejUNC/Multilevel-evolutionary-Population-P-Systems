@@ -27,6 +27,6 @@ In the file "dynamic regulatory factors", the training is implemented in network
 
 ### Ensemble learning of HN P system
 
-In the file "ensemble learning of HN P system", The predict.py call the predict_simple.py and segmentation_export.py to segment BMs. TThree HN P systems with different parameters are conducted on three numbers of NVIDIA Tesla V100 GPU with 32 GB simultaneously. The final model is the best results ensembled from the validation datasets. Which output the final segmentation.
+In the file "ensemble learning of HN P system", The predict.py call the predict_simple.py and segmentation_export.py to segment BMs. Three HN P systems with different parameters are conducted on three numbers of NVIDIA Tesla V100 GPU with 32 GB simultaneously. The final model is the best results ensembled from the validation datasets. Which output the final segmentation.
 
 
