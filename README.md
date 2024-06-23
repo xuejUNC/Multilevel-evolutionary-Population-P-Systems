@@ -1,7 +1,7 @@
 # Multilevel-evolutionary-Population-P-Systems
 ### Platform
 
-The code runs on a Linux with a 10GB GPU, cuDNN 8.0.2 or above, and has at least 6 CPU cores (12 threads) when trained.The proposed HN P system was also implemented on the PyTorch framework on an NVIDIA Tesla V100 GPU with 32 GB. The ensemble learning is conducted by three HN P systems with different parameters on three numbers of NVIDIA Tesla V100 GPU with 32 GB simultaneously.
+The code runs on a Linux with a 10GB GPU, cuDNN 8.0.2 or above, and has at least 6 CPU cores (12 threads) when trained.The proposed MEPP system was also implemented on the PyTorch framework on an NVIDIA Tesla V100 GPU with 32 GB. The ensemble learning is conducted by five MEPP system with different parameters on three numbers of NVIDIA Tesla V100 GPU with 32 GB simultaneously.
 
 ### Installation
 
