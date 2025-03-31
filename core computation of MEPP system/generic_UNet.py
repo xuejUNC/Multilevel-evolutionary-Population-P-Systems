@@ -67,6 +67,12 @@ class ConvDropoutNormNonlin(nn.Module):
             x = self.dropout(x)
         return self.lrelu(self.instnorm(x))
 
+ #   def forward(self, x):
+      #  x = self.lrelu(x)
+      #  if self.dropout is not None:
+      #      x = self.dropout(x)
+      #  return self.conv(self.instnorm(x))
+
 
 class ConvDropoutNonlinNorm(ConvDropoutNormNonlin):
     def forward(self, x):
@@ -74,6 +80,12 @@ class ConvDropoutNonlinNorm(ConvDropoutNormNonlin):
         if self.dropout is not None:
             x = self.dropout(x)
         return self.instnorm(self.lrelu(x))
+    
+ #  def forward(self, x):
+  #      x = self.lrelu(x)
+  #      if self.dropout is not None:
+  #          x = self.dropout(x)
+  #      return self.instnorm(self.conv(x))
 
 
 class StackedConvLayers(nn.Module):
